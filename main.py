@@ -1,10 +1,17 @@
 import os
 import sys
 import urllib.request
+from google.cloud import storage
 
-# Fetch Model
-model_url = 'https://storage.cloud.google.com/extraction_bucket_1/saved_models/0000360.tar'
-model_file, headers = urllib.request.urlretrieve(model_url, filename='/tmp/model.tar')
+from summarizer import *
+
+# Fetch model
+model_file = '/tmp/model.tar'
+storage_client = storage.Client()
+bucket = storage_client.get_bucket('extraction_bucket_1')
+blob = bucket.blob('saved_models/0000360.tar')
+blob.download_to_filename(model_file)
+
 
 def summarize(request):
   request_json = request.get_json(silent=True)
@@ -12,4 +19,11 @@ def summarize(request):
   if not contains_keys:
     return 'request json missing necessary keys :('
 
-  return model_file
+  summarizer  = Summarizer(
+    vocab_path = 'vocab.txt',
+    model_path = model_file,
+    model = TaskModel
+  )
+
+
+  return summarizer.summarize([request_json])

@@ -1,11 +1,11 @@
 #Most of this file is copied form https://github.com/abisee/pointer-generator/blob/master/data.py
 
-import glob
-import random
-import struct
-import csv
-import pandas as pd
-from tensorflow.core.example import example_pb2
+# import glob
+# import random
+# import struct
+# import csv
+# import pandas as pd
+# from tensorflow.core.example import example_pb2
 
 from data_util.preprocess import *
 
