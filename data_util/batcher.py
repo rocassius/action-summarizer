@@ -445,7 +445,10 @@ class TaskBatcher(Batcher):
       try:
         context = example[CONT_KEY]
         task    = example[TASK_KEY]
-        summary = example[SUM_KEY] 
+        if SUM_KEY in example: #temporary fix
+          summary = example[SUM_KEY]
+        else: 
+          summary = " " # 1 space summary if summary is absent
       except ValueError:
         #tf.compat.v1.logging.error('Failed to get context, task or abstract from example')
         continue
